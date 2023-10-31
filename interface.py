@@ -35,15 +35,23 @@ class Interface:
                 continue
             else:
                 break
+
         if load_way == 'f':
-            loaded_sequence = input_output.load(askopenfilename(title='файл с последовательностью',
-                                                                initialdir=current_path()))
+            loaded_sequence = input_output.load_from_file(askopenfilename(
+                title='файл с последовательностью', initialdir=current_path()))
         elif load_way == 'r':
-            loaded_sequence = input_output.load(random=True)
+            loaded_sequence = input_output.load_random_digits()
         elif load_way == 'k':
-            loaded_sequence = input_output.load()
+            loaded_sequence = input_output.load_from_input()
             
         return loaded_sequence
+
+    def print(self):
+        """
+        метод вывода введённой последовательности
+        """
+        print('изначальная последовательность')
+        input_output.pprint(self.entered_sequence, compact=True)
 
     def sort_sequence(self):
         """
@@ -57,26 +65,23 @@ class Interface:
         """
         if not len(self.result_sequence):
             print('последовательность не отсортирована!')
-        save = input('сохранить? y/n: ').lower()
-        if save in ('да', 'y', 'yes'):
+
+        save = input('сохранить в файл? y/n: ').lower()
+        if save in ('да', 'д', 'y', 'yes'):
             input_output.save(self.result_sequence,
                               asksaveasfilename(title='сохранение результата',
                                                 initialdir=current_path()))
         else:
-            input_output.save(self.result_sequence)
-        
+            input_output.pprint(self.result_sequence, compact=True)
 
 
-if __name__ == '__main__':    
-    help(sort)
-    help(input_output)
-    help(Interface)
-
+if __name__ == '__main__':
     root = Tk()
-    
-    app = Interface()
-    app.sort_sequence()
-    app.save_sorted_sequence()
+
+    while True:
+        i = Interface()
+        i.print()
+        i.sort_sequence()
+        i.save_sorted_sequence()
 
     root.destroy()
-    
