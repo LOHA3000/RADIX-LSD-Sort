@@ -5,3 +5,6 @@
   * Перьков Алексей
   * Евсеенко Валентин (BAJ19I)
   * Понадысев Тимур (TIMATTI)
+
+Блок-схема алгоритма представлена на рисунке
+![блок-схема алгоритма](https://github.com/LOHA3000/RADIX-LSD-Sort/blob/no-recursion/diagram.png)
