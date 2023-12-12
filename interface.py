@@ -30,7 +30,8 @@ class SequenceChoice(Toplevel):
         инициализация объекта графического интерфейса
         """
         super().__init__(parent)
-        self.title('все подпоследовательности')
+        seq_type = 'начальные' if type_ == 'raw' else 'отсортированные' if type_ == 'sorted' else ''
+        self.title(seq_type + ' последовательности для загрузки')
         self.resizable(True, False)
 
         self.table = Treeview(self, show='headings', columns=('num', 'seq', 'date'))
@@ -81,8 +82,8 @@ class SequenceChoice(Toplevel):
 
 
 class RandomChoice(Toplevel):
-    quantity_range = 1, 10000
-    length_range = 1, 70
+    quantity_range = 1, 1000
+    length_range = 1, 150
 
     def __init__(self, parent):
         """
@@ -136,11 +137,11 @@ class Interface(Tk):
         self.resizable(False, False)
         self.title('Radix LSD сортировка')
 
-        Label(self, text='начальная последовательность').grid(row=0, column=0, sticky='new')
+        Label(self, text='Начальная последовательность').grid(row=0, column=0, sticky='new')
         self.entry = TextEntry(self, height=10, width=110)
         self.entry.grid(row=1, column=0, columnspan=3, sticky='new')
 
-        Label(self, text='отсортированная последовательность').grid(row=2, column=0, sticky='new')
+        Label(self, text='Отсортированная последовательность').grid(row=2, column=0, sticky='new')
         self.answer = TextEntry(self, height=10, width=110)
         self.answer.grid(row=3, column=0, columnspan=3, sticky='new')
 
@@ -219,7 +220,7 @@ class Interface(Tk):
             if not exists(path_to_file):
                 print(f'Файл "{path_to_file}" не существует')
                 return None
-            with open(path_to_file) as outer_file:
+            with open(path_to_file, encoding='utf-8') as outer_file:
                 # вычленение всех подстрок разделённых пробелами
                 entered_sequence = outer_file.read().strip().split()
                 self.entry.fill(entered_sequence)
@@ -238,7 +239,7 @@ class Interface(Tk):
                                          filetypes=(('Текстовый', '.txt'),),
                                          defaultextension=(('Текстовый', '.txt'),))
         if path_to_file:
-            with open(path_to_file, 'w') as outer_file:
+            with open(path_to_file, 'w', encoding='utf-8') as outer_file:
                 outer_file.write(sequence)
         showinfo(title='успех', message='сохранено в файл')
 
